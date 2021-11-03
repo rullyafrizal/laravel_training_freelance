@@ -5,13 +5,11 @@ namespace App\Http\Controllers;
 use App\Http\Requests\User\CreateUserRequest;
 use App\Http\Requests\User\UpdateUserRequest;
 use App\Repositories\Interfaces\UserRepositoryInterface;
-use App\Services\ApiHttpResponseService;
-use Illuminate\Http\Request;
 use App\Enums\HttpStatus;
 
 class UserController extends Controller
 {
-    public function __construct(private UserRepositoryInterface $userRepository, private ApiHttpResponseService $apiHttp)
+    public function __construct(private UserRepositoryInterface $userRepository)
     {}
 
     /**
@@ -23,12 +21,11 @@ class UserController extends Controller
     {
         $users = $this->userRepository->all();
 
-        return $this->apiHttp
-            ->sendResponse(
-                HttpStatus::OK,
-                'Success fetching users',
-                $users
-            );
+        return sendResponse(
+            HttpStatus::OK,
+            'Success fetching users',
+            $users
+        );
     }
 
     /**
@@ -41,12 +38,11 @@ class UserController extends Controller
     {
         $user = $this->userRepository->create($request->validated());
 
-        return $this->apiHttp
-            ->sendResponse(
-                HttpStatus::CREATED,
-                'Success creating user',
-                $user
-            );
+        return sendResponse(
+            HttpStatus::CREATED,
+            'Success creating user',
+            $user
+        );
     }
 
     /**
@@ -57,12 +53,11 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        return $this->apiHttp
-            ->sendResponse(
-                HttpStatus::OK,
-                "Success fetching user with id: [${id}]",
-                $this->userRepository->find($id),
-            );
+        return sendResponse(
+            HttpStatus::OK,
+            "Success fetching user with id: [${id}]",
+            $this->userRepository->find($id),
+        );
     }
 
     /**
@@ -76,11 +71,10 @@ class UserController extends Controller
     {
         $this->userRepository->update($id, $request->validated());
 
-        return $this->apiHttp
-            ->sendResponse(
-                HttpStatus::OK,
-                'Success updating user data',
-            );
+        return sendResponse(
+            HttpStatus::OK,
+            'Success updating user data',
+        );
     }
 
     /**
@@ -93,10 +87,9 @@ class UserController extends Controller
     {
         $this->userRepository->delete($id);
 
-        return $this->apiHttp
-            ->sendResponse(
-                HttpStatus::OK,
-                'Success deleting user data'
-            );
+        return sendResponse(
+            HttpStatus::OK,
+            'Success deleting user data'
+        );
     }
 }
