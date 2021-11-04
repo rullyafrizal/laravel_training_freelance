@@ -1,15 +1,16 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\User\CreateUserRequest;
 use App\Http\Requests\User\UpdateUserRequest;
-use App\Repositories\Interfaces\UserRepositoryInterface;
 use App\Enums\HttpStatus;
+use App\Services\UserService;
 
 class UserController extends Controller
 {
-    public function __construct(private UserRepositoryInterface $userRepository)
+    public function __construct(private UserService $userService)
     {}
 
     /**
@@ -19,29 +20,25 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = $this->userRepository->all();
-
         return sendResponse(
             HttpStatus::OK,
             'Success fetching users',
-            $users
+            $this->userService->getUsers()
         );
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param CreateUserRequest $request
      * @return \Illuminate\Http\JsonResponse
      */
     public function store(CreateUserRequest $request)
     {
-        $user = $this->userRepository->create($request->validated());
-
         return sendResponse(
             HttpStatus::CREATED,
             'Success creating user',
-            $user
+            $this->userService->createUser($request->validated())
         );
     }
 
@@ -55,21 +52,21 @@ class UserController extends Controller
     {
         return sendResponse(
             HttpStatus::OK,
-            "Success fetching user with id: [${id}]",
-            $this->userRepository->find($id),
+            "Success fetching user with id: [$id]",
+            $this->userService->getUser($id),
         );
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param UpdateUserRequest $request
+     * @param int $id
      * @return \Illuminate\Http\JsonResponse
      */
     public function update(UpdateUserRequest $request, $id)
     {
-        $this->userRepository->update($id, $request->validated());
+        $this->userService->updateUser($id, $request->validated());
 
         return sendResponse(
             HttpStatus::OK,
@@ -85,7 +82,7 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        $this->userRepository->delete($id);
+        $this->userService->deleteUser($id);
 
         return sendResponse(
             HttpStatus::OK,

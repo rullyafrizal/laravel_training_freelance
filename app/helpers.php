@@ -1,16 +1,11 @@
 <?php
 
 use App\Enums\HttpStatus;
+use Illuminate\Http\JsonResponse;
 
-if (!function_exists('working_hours'))
+if (!function_exists('sendResponse'))
 {
-    /**
-     * @param int $status
-     * @param string $message
-     * @param mixed|array $body
-     * @return \Illuminate\Http\JsonResponse
-     */
-    function sendResponse(int $status = HttpStatus::OK, string $message = '', mixed $body = []): \Illuminate\Http\JsonResponse
+    function sendResponse(int $status = HttpStatus::OK, string $message = '', mixed $body = []): JsonResponse
     {
         return response()
             ->json([

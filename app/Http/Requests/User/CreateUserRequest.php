@@ -29,16 +29,4 @@ class CreateUserRequest extends FormRequest
             'password' => 'required'
         ];
     }
-
-    /**
-     * Prepare the data for validation.
-     *
-     * @return void
-     */
-    protected function prepareForValidation()
-    {
-        $this->merge([
-            'password' => bcrypt($this->password),
-        ]);
-    }
 }
