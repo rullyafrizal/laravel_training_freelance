@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\CommentController;
 use App\Http\Controllers\Api\PostController;
 use App\Http\Controllers\Api\UserController;
 use Illuminate\Http\Request;
@@ -22,3 +23,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::apiResource('users', UserController::class);
 Route::apiResource('posts', PostController::class);
+Route::prefix('posts/{post}')->group(function() {
+    Route::apiResource('comments', CommentController::class);
+});

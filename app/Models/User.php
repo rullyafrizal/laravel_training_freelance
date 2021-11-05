@@ -42,13 +42,15 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function setPasswordAttribute($value)
-    {
+    public function setPasswordAttribute($value){
         $this->attributes['password'] = bcrypt($value);
     }
 
-    public function posts()
-    {
+    public function posts() {
         return $this->hasMany(Post::class);
+    }
+
+    public function comments() {
+        return $this->hasManyThrough(Comment::class, Post::class);
     }
 }
