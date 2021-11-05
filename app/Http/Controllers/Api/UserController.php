@@ -89,4 +89,13 @@ class UserController extends Controller
             'Success deleting user data'
         );
     }
+
+    public function getUserComments()
+    {
+        return sendResponse(
+            HttpStatus::OK,
+            'Success fetching user article comments',
+            $this->userService->getUserComments()
+        );
+    }
 }

@@ -38,4 +38,9 @@ class UserService
     {
         return $this->userRepository->delete($id);
     }
+
+    public function getUserComments()
+    {
+        return $this->userRepository->withComments();
+    }
 }

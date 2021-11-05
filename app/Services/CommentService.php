@@ -15,12 +15,12 @@ class CommentService
         return $this->commentRepository->create($payload);
     }
 
-    public function getComments() {
+    public function getComments($post) {
         return $this->commentRepository->all();
     }
 
-    public function getComment($id) {
-        return $this->commentRepository->find($id);
+    public function getComment($post, $comment) {
+        return $this->commentRepository->find($comment);
     }
 
     public function updateComment($id, array $payload = []) {

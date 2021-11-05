@@ -11,7 +11,6 @@ use Illuminate\Support\Collection;
 
 class UserRepository extends BaseRepository implements  UserRepositoryInterface
 {
-
     public function __construct(User $model)
     {
         parent::__construct($model);
@@ -19,7 +18,7 @@ class UserRepository extends BaseRepository implements  UserRepositoryInterface
 
     public function all(): Collection
     {
-        return $this->model->all();
+        return $this->model->newQuery()->with(['posts', 'comments'])->get();
     }
 
     public function find($id): Model|Collection|Builder|array|null

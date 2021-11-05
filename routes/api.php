@@ -21,8 +21,13 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+// users
 Route::apiResource('users', UserController::class);
+
+// posts
 Route::apiResource('posts', PostController::class);
+
+// comments
 Route::prefix('posts/{post}')->group(function() {
     Route::apiResource('comments', CommentController::class);
 });

@@ -2,6 +2,8 @@
 
 namespace App\Http\Resources\User;
 
+use App\Http\Resources\Comment\CommentCollection;
+use App\Http\Resources\Post\PostCollection;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class UserResource extends JsonResource
@@ -18,6 +20,8 @@ class UserResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'email' => $this->email,
+            'posts' => new PostCollection($this->whenLoaded('posts')),
+            'comments' => new CommentCollection($this->whenLoaded('comments'))
         ];
     }
 }
