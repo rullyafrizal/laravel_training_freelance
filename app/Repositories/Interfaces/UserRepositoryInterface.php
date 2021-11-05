@@ -6,7 +6,8 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 
-interface UserRepositoryInterface {
+interface UserRepositoryInterface
+{
     public function all(): Collection;
     public function find($id): Model|Collection|Builder|array|null;
     public function create(array $payload = []): Model|Builder;

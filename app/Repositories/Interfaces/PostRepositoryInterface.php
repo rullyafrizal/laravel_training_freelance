@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 
-interface EloquentRepositoryInterface
+interface PostRepositoryInterface
 {
     public function all(): Collection;
     public function find($id): Model|Collection|Builder|array|null;

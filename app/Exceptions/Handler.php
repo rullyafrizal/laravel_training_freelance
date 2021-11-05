@@ -108,6 +108,7 @@ class Handler extends ExceptionHandler
         if (config('app.debug') && $statusCode !== 422) {
             $response['trace'] = $exception->getTrace();
             $response['code'] = $exception->getCode();
+            $response['error_message'] = $exception->getMessage();
         }
 
         $response['status'] = $statusCode;
