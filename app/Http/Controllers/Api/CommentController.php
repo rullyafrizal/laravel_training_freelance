@@ -22,7 +22,6 @@ class CommentController extends Controller
     }
 
     public function store($post, CreateCommentRequest $request) {
-        dd($post);
         return $this->commentService->createComment($post, $request->validated());
     }
 
