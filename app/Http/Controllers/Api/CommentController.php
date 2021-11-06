@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Enums\HttpStatus;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Comment\CreateCommentRequest;
 use App\Http\Requests\Comment\UpdateCommentRequest;
 use App\Services\CommentService;
-use Illuminate\Http\Request;
 
 class CommentController extends Controller
 {
@@ -14,22 +14,43 @@ class CommentController extends Controller
     {}
 
     public function index() {
-        return $this->commentService->getComments();
+        return sendResponse(
+            HttpStatus::OK,
+            'Success fetching comments',
+            $this->commentService->getComments()
+        );
     }
 
     public function show($id) {
-        return $this->commentService->getComment($id);
+        return sendResponse(
+            HttpStatus::OK,
+            'Success fetching comment',
+            $this->commentService->getComment($id)
+        );
     }
 
-    public function store($post, CreateCommentRequest $request) {
-        return $this->commentService->createComment($post, $request->validated());
+    public function store(CreateCommentRequest $request) {
+        return sendResponse(
+            HttpStatus::CREATED,
+            'Success creating comment',
+            $this->commentService->createComment($request->validated())
+        );
     }
 
     public function update($id, UpdateCommentRequest $request) {
-        return $this->commentService->updateComment($id, $request->validated());
+        $this->commentService->updateComment($id, $request->validated());
+        return sendResponse(
+            HttpStatus::OK,
+            'Success updating comment'
+        );
     }
 
     public function destroy($id) {
-        return $this->commentService->deleteComment($id);
+        $this->commentService->deleteComment($id);
+
+        return sendResponse(
+            HttpStatus::OK,
+            'Success deleting comment'
+        );
     }
 }

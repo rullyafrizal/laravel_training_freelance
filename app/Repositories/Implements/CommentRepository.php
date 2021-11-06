@@ -18,12 +18,12 @@ class CommentRepository extends BaseRepository implements CommentRepositoryInter
 
     public function all(): Collection
     {
-        return $this->model->all();
+        return $this->model->newQuery()->with(['post', 'user'])->get();
     }
 
     public function find($id): Model|Collection|Builder|array|null
     {
-        $comment = $this->model->find($id);
+        $comment = $this->model->newQuery()->with(['user', 'post'])->find($id);
 
         return !$comment ?
             throw new ModelNotFoundException() :
