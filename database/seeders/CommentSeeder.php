@@ -23,6 +23,7 @@ class CommentSeeder extends Seeder
            Comment::create([
                'comment' => $faker->text(50),
                'post_id' => $post->id,
+               'user_id' => 11
            ]);
         });
     }
