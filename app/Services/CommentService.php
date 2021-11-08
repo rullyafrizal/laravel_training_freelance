@@ -10,23 +10,25 @@ class CommentService
     public function __construct(private CommentRepositoryInterface $commentRepository)
     {}
 
-    public function createComment(array $payload = []) {
-        return $this->commentRepository->create($payload);
+    public function createComment($post, array $payload = []) {
+        $payload = array_merge(['post_id' => $post], $payload);
+
+        return $this->commentRepository->create($post, $payload);
     }
 
-    public function getComments() {
-        return new CommentCollection($this->commentRepository->all());
+    public function getComments($post) {
+        return new CommentCollection($this->commentRepository->all($post));
     }
 
-    public function getComment($comment) {
-        return $this->commentRepository->find($comment);
+    public function getComment($post, $comment) {
+        return $this->commentRepository->find($post, $comment);
     }
 
-    public function updateComment($comment, array $payload = []) {
-        return $this->commentRepository->update($comment, $payload);
+    public function updateComment($post, $comment, array $payload = []) {
+        return $this->commentRepository->update($post, $comment, $payload);
     }
 
-    public function deleteComment($comment) {
-        return $this->commentRepository->delete($comment);
+    public function deleteComment($post, $comment) {
+        return $this->commentRepository->delete($post, $comment);
     }
 }

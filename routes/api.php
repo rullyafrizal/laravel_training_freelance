@@ -26,13 +26,14 @@ Route::group(['middleware' => 'auth:api'], function () {
     // users
     Route::apiResource('users', UserController::class);
 
-// posts
+    // posts
     Route::apiResource('posts', PostController::class);
 
-// comments
-    Route::apiResource('comments', CommentController::class);
+    // comments
+    Route::apiResource('posts.comments', CommentController::class);
 });
 
+// auth
 Route::group([
     'middleware' => 'api',
     'prefix' => 'auth'

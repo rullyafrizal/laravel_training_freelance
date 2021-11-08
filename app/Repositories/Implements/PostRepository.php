@@ -20,7 +20,6 @@ class PostRepository extends BaseRepository implements PostRepositoryInterface
     {
         return $this->model
             ->newQuery()
-            ->where('user_id', auth()->id())
             ->with(['comments', 'user'])
             ->get();
     }
@@ -29,7 +28,6 @@ class PostRepository extends BaseRepository implements PostRepositoryInterface
     {
         $post = $this->model
             ->newQuery()
-            ->where('user_id', auth()->id())
             ->with(['comments', 'user'])
             ->find($id);
 
