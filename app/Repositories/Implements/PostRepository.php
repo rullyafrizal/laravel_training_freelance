@@ -18,12 +18,18 @@ class PostRepository extends BaseRepository implements PostRepositoryInterface
 
     public function all(): Collection
     {
-        return $this->model->all();
+        return $this->model
+            ->newQuery()
+            ->with(['comments', 'user'])
+            ->get();
     }
 
     public function find($id): Model|Collection|Builder|array|null
     {
-        $post = $this->model->find($id);
+        $post = $this->model
+            ->newQuery()
+            ->with(['comments', 'user'])
+            ->find($id);
 
         return !$post ?
             throw new ModelNotFoundException() :
@@ -32,15 +38,13 @@ class PostRepository extends BaseRepository implements PostRepositoryInterface
 
     public function create(array $payload = []): Model|Builder
     {
-        $payload = array_merge($payload, ['user_id' => 2]);
+        $payload = array_merge($payload, ['user_id' => auth()->id()]);
 
         return $this->model->create($payload);
     }
 
     public function update($id, array $payload = []): bool|int
     {
-        $payload = array_merge($payload, ['user_id' => 2]);
-
         return $this->find($id)->update($payload);
     }
 

@@ -105,10 +105,14 @@ class Handler extends ExceptionHandler
                 break;
         }
 
-        if (config('app.debug') && $statusCode !== 422) {
-            $response['trace'] = $exception->getTrace();
-            $response['code'] = $exception->getCode();
-            $response['error_message'] = $exception->getMessage();
+        if (config('app.debug')) {
+            if(method_exists($exception, 'getTrace')) {
+                $response['trace'] = $exception->getTrace();
+            } else if (method_exists($exception, 'getCode')) {
+                $response['code'] = $exception->getCode();
+            } else if (method_exists($exception, 'getMessage')) {
+                $response['error_message'] = $exception->getMessage();
+            }
         }
 
         $response['status'] = $statusCode;

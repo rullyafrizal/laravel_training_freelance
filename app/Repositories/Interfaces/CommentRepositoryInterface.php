@@ -8,9 +8,9 @@ use Illuminate\Support\Collection;
 
 interface CommentRepositoryInterface
 {
-    public function all(): Collection;
-    public function find($id): Model|Collection|Builder|array|null;
-    public function create(array $payload = []): Model|Builder;
-    public function update($id, array $payload = []): bool|int;
-    public function delete($id);
+    public function all($post): Collection;
+    public function find($post, $comment): Model|Collection|Builder|array|null;
+    public function create($post, array $payload = []): Model|Builder;
+    public function update($post, $comment, array $payload = []): bool|int;
+    public function delete($post, $comment);
 }

@@ -9,39 +9,45 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Collection;
 
-class CommentRepository extends BaseRepository implements CommentRepositoryInterface
+class CommentRepository implements CommentRepositoryInterface
 {
-    public function __construct(Comment $model)
+    public function __construct(private Comment $model)
+    {}
+
+    public function all($post): Collection
     {
-        parent::__construct($model);
+        return $this->model
+            ->newQuery()
+            ->where('post_id', $post)
+            ->with(['post', 'user'])
+            ->get();
     }
 
-    public function all(): Collection
+    public function find($post, $comment): Model|Collection|Builder|array|null
     {
-        return $this->model->all();
-    }
-
-    public function find($id): Model|Collection|Builder|array|null
-    {
-        $comment = $this->model->find($id);
+        $comment = $this->model
+            ->newQuery()
+            ->where('post_id', $post)
+            ->with(['user', 'post'])
+            ->find($comment);
 
         return !$comment ?
             throw new ModelNotFoundException() :
             $comment;
     }
 
-    public function create(array $payload = []): Model|Builder
+    public function create($post, array $payload = []): Model|Builder
     {
         return $this->model->create($payload);
     }
 
-    public function update($id, array $payload = []): bool | int
+    public function update($post, $comment, array $payload = []): bool | int
     {
-        return $this->find($id)->update($payload);
+        return $this->find($post, $comment)->update($payload);
     }
 
-    public function delete($id)
+    public function delete($post, $comment)
     {
-        return $this->find($id)->delete();
+        return $this->find($post, $comment)->delete();
     }
 }

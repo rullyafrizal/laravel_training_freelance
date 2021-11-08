@@ -23,7 +23,7 @@ class UserRepository extends BaseRepository implements  UserRepositoryInterface
 
     public function find($id): Model|Collection|Builder|array|null
     {
-        $user = $this->model->find($id);
+        $user = $this->model->newQuery()->with(['posts', 'comments'])->find($id);
 
         return !$user ?
             throw new ModelNotFoundException() :
