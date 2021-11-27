@@ -32,7 +32,7 @@ class PostRepository extends BaseRepository implements PostRepositoryInterface
             ->find($id);
 
         return !$post ?
-            throw new ModelNotFoundException() :
+            throw new ModelNotFoundException('Resource not found') :
             $post;
     }
 

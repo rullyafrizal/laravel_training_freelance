@@ -8,7 +8,6 @@ use App\Repositories\Interfaces\PostRepositoryInterface;
 
 class PostService
 {
-
     public function __construct(private PostRepositoryInterface $postRepository)
     {}
 
