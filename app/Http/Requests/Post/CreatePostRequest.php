@@ -26,6 +26,14 @@ class CreatePostRequest extends FormRequest
         return [
             'title' => 'required|max:255',
             'content' => 'required',
+            'user_id' => 'required|numeric'
         ];
+    }
+
+    public function prepareForValidation()
+    {
+        $this->merge([
+            'user_id' => auth()->id()
+        ]);
     }
 }

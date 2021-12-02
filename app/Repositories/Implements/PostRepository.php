@@ -38,8 +38,6 @@ class PostRepository extends BaseRepository implements PostRepositoryInterface
 
     public function create(array $payload = []): Model|Builder
     {
-        $payload = array_merge($payload, ['user_id' => auth()->id()]);
-
         return $this->model->create($payload);
     }
 
